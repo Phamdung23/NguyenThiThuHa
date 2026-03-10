@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog Tình Yêu</title>
+  <style>
+    :root {
+      --bg: #fff7fb;
+      --card: #ffffff;
+      --primary: #e94b7b;
+      --primary-dark: #c93664;
+      --text: #3f2441;
+      --muted: #7a5c78;
+      --soft-pink: #ffd8e6;
+      --soft-rose: #ffeef5;
+      --shadow: 0 20px 60px rgba(169, 63, 105, 0.18);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #fff8fb 0%, #fff2f8 100%);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+      background: rgba(255, 248, 251, 0.82);
+      border-bottom: 1px solid rgba(233, 75, 123, 0.12);
+    }
+
+    .nav-inner {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-dark);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      background:
+        radial-gradient(circle at top left, rgba(255, 182, 206, 0.65), transparent 30%),
+        radial-gradient(circle at right center, rgba(255, 206, 221, 0.45), transparent 28%),
+        linear-gradient(135deg, #ffdbe9 0%, #fff4f8 55%, #fffafd 100%);
+      overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "❤";
+      position: absolute;
+      color: rgba(233, 75, 123, 0.12);
+      font-size: 12rem;
+      animation: float 6s ease-in-out infinite;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      top: 8%;
+      right: 8%;
+      transform: rotate(-15deg);
+    }
+
+    .hero::after {
+      left: 6%;
+      bottom: 12%;
+      font-size: 9rem;
+      animation-delay: 1.8s;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 48px;
+      align-items: center;
+      padding: 70px 0;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(233, 75, 123, 0.12);
+      color: var(--primary-dark);
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4.6rem);
+      line-height: 1.08;
+      margin-bottom: 18px;
+      color: #6f1a42;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 620px;
+      margin-bottom: 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 700;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(233, 75, 123, 0.22);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #ff7aa3);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--primary-dark);
+      border: 1px solid rgba(233, 75, 123, 0.18);
+    }
+
+    .hero-card {
+      position: relative;
+      min-height: 520px;
+      border-radius: 34px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: var(--card);
+      transform: rotate(2deg);
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(60, 18, 35, 0.55), rgba(60, 18, 35, 0.08)),
+        url('./a1.jpg') center/cover no-repeat;
+    }
+
+    .hero-card-content {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 28px;
+      color: white;
+    }
+
+    .hero-card-content h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .hero-card-content p {
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 0;
+    }
+
+    .section {
+      padding: 100px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 58px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 12px;
+      color: #6f1a42;
+    }
+
+    .section-title p {
+      max-width: 760px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    .story-grid {
+      display: grid;
+      gap: 34px;
+    }
+
+    .story-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .story-row.reverse .story-image {
+      order: 2;
+    }
+
+    .story-row.reverse .story-text {
+      order: 1;
+    }
+
+    .story-image {
+      min-height: 420px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .story-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(94,28,52,0.18));
+    }
+
+    .img-1 {
+      background: url('./a2.png') center/cover no-repeat;
+    }
+
+    .img-2 {
+      background: url('./a3.jpg') center/cover no-repeat;
+    }
+
+    .img-3 {
+      background: url('./a4.jpg') center/cover no-repeat;
+    }
+
+    .img-4 {
+      background: url('./a5.jpg') center/cover no-repeat;
+    }
+
+    .story-text {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(233, 75, 123, 0.1);
+      border-radius: var(--radius);
+      padding: 34px;
+      box-shadow: 0 12px 36px rgba(196, 87, 130, 0.08);
+    }
+
+    .story-text .tag {
+      display: inline-block;
+      margin-bottom: 14px;
+      color: var(--primary-dark);
+      font-weight: 700;
+      background: rgba(233, 75, 123, 0.1);
+      padding: 8px 14px;
+      border-radius: 999px;
+    }
+
+    .story-text h3 {
+      font-size: clamp(1.7rem, 3vw, 2.3rem);
+      margin-bottom: 14px;
+      line-height: 1.2;
+      color: #6f1a42;
+    }
+
+    .story-text p {
+      color: var(--muted);
+      margin-bottom: 14px;
+      font-size: 1.03rem;
+    }
+
+    .quote {
+      margin-top: 18px;
+      padding: 18px 20px;
+      background: var(--soft-rose);
+      border-left: 4px solid var(--primary);
+      border-radius: 16px;
+      color: #7c3351;
+      font-style: italic;
+    }
+
+    .memories {
+      background:
+        radial-gradient(circle at center, rgba(255, 221, 231, 0.75), transparent 40%),
+        linear-gradient(180deg, #fff4f8 0%, #fff9fc 100%);
+    }
+
+    .memory-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .memory-card {
+      background: white;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(233, 75, 123, 0.08);
+    }
+
+    .memory-card span {
+      font-size: 2rem;
+      display: inline-block;
+      margin-bottom: 14px;
+    }
+
+    .memory-card h4 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: #6f1a42;
+    }
+
+    .memory-card p {
+      color: var(--muted);
+    }
+
+    .final-section {
+      padding: 120px 0 140px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .final-section::before,
+    .final-section::after {
+      content: "❤";
+      position: absolute;
+      font-size: 7rem;
+      color: rgba(233, 75, 123, 0.09);
+      animation: pulse 3s ease-in-out infinite;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .final-section::before {
+      left: 10%;
+      top: 14%;
+    }
+
+    .final-section::after {
+      right: 10%;
+      bottom: 16%;
+      animation-delay: 1.2s;
+    }
+
+    .final-box {
+      width: min(780px, 100%);
+      margin: 0 auto;
+      background: white;
+      border-radius: 34px;
+      padding: 48px 28px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(233, 75, 123, 0.08);
+    }
+
+    .final-box h2 {
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      color: #6f1a42;
+      margin-bottom: 14px;
+    }
+
+    .final-box p {
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0 auto 28px;
+      font-size: 1.04rem;
+    }
+
+    .click-btn {
+      min-width: 180px;
+      font-size: 1.05rem;
+      background: linear-gradient(135deg, #ff5c8f, #e9346d);
+      color: white;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 22px 16px 34px;
+      color: #90647e;
+      font-size: 0.95rem;
+    }
+
+    .love-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(43, 11, 30, 0.62);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+
+    .love-modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .love-card {
+      position: relative;
+      width: min(920px, 100%);
+      min-height: 72vh;
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 30px 90px rgba(74, 17, 45, 0.35);
+      transform: scale(0.92);
+      transition: transform 0.35s ease;
+      background:
+        linear-gradient(rgba(90, 16, 49, 0.28), rgba(90, 16, 49, 0.4)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000' viewBox='0 0 1600 1000'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop stop-color='%23ffb5c9' offset='0'/%3E%3Cstop stop-color='%23ff7aa3' offset='0.45'/%3E%3Cstop stop-color='%23c93664' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1600' height='1000' fill='url(%23g)'/%3E%3Cg opacity='0.22' fill='%23fff0f6'%3E%3Ccircle cx='220' cy='180' r='120'/%3E%3Ccircle cx='1350' cy='210' r='150'/%3E%3Ccircle cx='1280' cy='760' r='210'/%3E%3Ccircle cx='310' cy='790' r='180'/%3E%3C/g%3E%3Cg fill='%23ffffff' opacity='0.36'%3E%3Ctext x='170' y='250' font-size='120'%3E❤%3C/text%3E%3Ctext x='460' y='650' font-size='180'%3E❤%3C/text%3E%3Ctext x='1180' y='350' font-size='150'%3E❤%3C/text%3E%3Ctext x='1060' y='820' font-size='120'%3E❤%3C/text%3E%3C/g%3E%3C/svg%3E") center/cover no-repeat;
+    }
+
+    .love-modal.show .love-card {
+      transform: scale(1);
+    }
+
+    .love-message {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px;
+      color: white;
+    }
+
+    .love-message small {
+      display: inline-block;
+      margin-bottom: 16px;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    .love-message h3 {
+      font-size: clamp(2.4rem, 7vw, 5.4rem);
+      line-height: 1.06;
+      text-shadow: 0 8px 24px rgba(95, 13, 46, 0.28);
+      animation: glow 1.8s ease-in-out infinite alternate;
+    }
+
+    .love-message p {
+      margin-top: 16px;
+      font-size: 1.05rem;
+      max-width: 600px;
+      opacity: 0.95;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 46px;
+      height: 46px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.16);
+      color: white;
+      font-size: 1.4rem;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+
+    .close-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-15deg); }
+      50% { transform: translateY(-14px) rotate(-8deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.09; }
+      50% { transform: scale(1.08); opacity: 0.18; }
+    }
+
+    @keyframes glow {
+      from { transform: scale(1); }
+      to { transform: scale(1.03); }
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .story-row,
+      .story-row.reverse {
+        grid-template-columns: 1fr;
+      }
+
+      .story-row.reverse .story-image,
+      .story-row.reverse .story-text {
+        order: initial;
+      }
+
+      .hero-card {
+        min-height: 420px;
+        transform: rotate(0deg);
+      }
+
+      .memory-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-inner {
+        min-height: 68px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-grid {
+        padding: 56px 0;
+      }
+
+      .story-text,
+      .memory-card,
+      .final-box {
+        padding: 24px;
+      }
+
+      .story-image {
+        min-height: 280px;
+      }
+
+      .hero-card {
+        min-height: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="brand">Love Blog</a>
+      <nav class="nav-links">
+        <a href="#about">Khởi đầu</a>
+        <a href="#journey">Hành trình</a>
+        <a href="#memories">Kỷ niệm</a>
+        <a href="#ending">Điều cuối</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">Blog tình yêu dịu dàng</span>
+        <h1>Nơi mình viết về những điều nhỏ bé nhưng thật lòng dành cho em</h1>
+        <p>
+          Kỷ niệm và lời yêu thương.
+          Cuộn xuống để xem từng câu chuyện, mỗi phần là một mảnh ghép về tình yêu.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#journey">Đọc câu chuyện</a>
+          <a class="btn btn-secondary" href="#ending">Xem điều đặc biệt</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-card-content">
+          <h2>Những ngày có em</h2>
+          <p>
+            Có những điều chẳng cần quá lớn lao, chỉ cần một người ở bên là đủ làm tim dịu lại.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-title">
+        <h2>Một blog kể về yêu thương</h2>
+        <p>
+          Giao diện được thiết kế như một trang blog dài, cuộn xuống để xem từng phần nội dung.
+          Mỗi phần gồm ảnh minh họa ở một bên và tiêu đề cùng đoạn văn ở bên còn lại.
+        </p>
+      </div>
+
+      <div class="story-grid" id="journey">
+        <article class="story-row">
+          <div class="story-image img-1" aria-label="Ảnh minh họa tình yêu"></div>
+          <div class="story-text">
+            <span class="tag">Chương 1</span>
+            <h3>Lần đầu thấy em, mọi thứ bỗng dịu dàng hơn</h3>
+            <p>
+              Có lẽ tình yêu bắt đầu từ những điều rất đơn giản. Một ánh nhìn, một nụ cười,
+              hay chỉ là cảm giác muốn kể cho ai đó nghe mọi chuyện trong ngày.
+            </p>
+            <p>
+              Từ khoảnh khắc ấy, thế giới vốn bình thường bỗng trở nên sáng hơn,
+              nhẹ hơn, và đáng nhớ hơn một chút.
+            </p>
+            <div class="quote">“Yêu là khi chỉ cần nghĩ đến người ấy thôi cũng thấy lòng mình mềm lại.”</div>
+          </div>
+        </article>
+
+        <article class="story-row reverse">
+          <div class="story-image img-2" aria-label="Ảnh minh họa hẹn hò"></div>
+          <div class="story-text">
+            <span class="tag">Chương 2</span>
+            <h3>Những cuộc trò chuyện nhỏ lại hóa thành điều mình nhớ mãi</h3>
+            <p>
+              Tình yêu không phải lúc nào cũng là những lời hoa mỹ. Đôi khi, nó chỉ là
+              một câu hỏi “Hôm nay em có mệt không?”, là sự quan tâm lặng lẽ nhưng đủ đầy.
+            </p>
+            <p>
+              Chính những điều bình dị ấy đã làm nên một câu chuyện đẹp, chậm rãi và chân thành.
+            </p>
+            <div class="quote">“Có em trong ngày, mọi điều tưởng chừng bình thường cũng trở thành kỷ niệm.”</div>
+          </div>
+        </article>
+
+        <article class="story-row">
+          <div class="story-image img-3" aria-label="Ảnh minh họa kỷ niệm"></div>
+          <div class="story-text">
+            <span class="tag">Chương 3</span>
+            <h3>Mình giữ lại những khoảnh khắc rất nhỏ để thương nhau lâu hơn</h3>
+            <p>
+              Một tấm ảnh, một buổi chiều, một lần nắm tay, hay một tin nhắn chúc ngủ ngon.
+              Những điều tưởng như bé xíu lại trở thành thứ khiến tim mình rung lên mỗi lần nhớ lại.
+            </p>
+            <p>
+              Yêu thương đôi khi không cần phô trương, chỉ cần được gìn giữ bằng cả sự chân thành.
+            </p>
+            <div class="quote">“Mình không cần một tình yêu hoàn hảo, chỉ cần một người thật lòng.”</div>
+          </div>
+        </article>
+
+        <article class="story-row reverse">
+          <div class="story-image img-4" aria-label="Ảnh minh họa hạnh phúc"></div>
+          <div class="story-text">
+            <span class="tag">Chương 4</span>
+            <h3>Và rồi mình nhận ra, điều đẹp nhất là được ở cạnh em</h3>
+            <p>
+              Có thể ngoài kia còn rất nhiều điều rực rỡ, nhưng điều làm trái tim mình bình yên nhất
+              vẫn là sự hiện diện của em. Một người vừa là niềm vui, vừa là dịu dàng, vừa là lý do
+              để mình mỉm cười.
+            </p>
+            <p>
+              Blog này không chỉ là một trang web, mà còn là một góc nhỏ để cất giữ những lời thương.
+            </p>
+            <div class="quote">“Đôi khi hạnh phúc chỉ là cùng một người đi qua những ngày rất đỗi bình thường.”</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section memories" id="memories">
+    <div class="container">
+      <div class="section-title">
+        <h2>Những điều mình muốn giữ lại</h2>
+        <p>
+          Một vài mẩu ký ức nho nhỏ, như những thẻ ghi chú của trái tim, để sau này nhìn lại vẫn thấy ấm áp.
+        </p>
+      </div>
+
+      <div class="memory-cards">
+        <div class="memory-card">
+          <span>🌷</span>
+          <h4>Nụ cười đầu tiên</h4>
+          <p>
+            Có những nụ cười không chỉ đẹp, mà còn làm cho một người bỗng muốn dịu dàng hơn mỗi ngày.
+          </p>
+        </div>
+        <div class="memory-card">
+          <span>💌</span>
+          <h4>Tin nhắn đêm muộn</h4>
+          <p>
+            Chỉ vài dòng hỏi han thôi cũng đủ khiến một ngày dài trở nên nhẹ tênh và ấm áp hơn rất nhiều.
+          </p>
+        </div>
+        <div class="memory-card">
+          <span>✨</span>
+          <h4>Những ngày bình yên</h4>
+          <p>
+            Mọi thứ trở nên đẹp đẽ hơn khi được đi qua cùng một người mà mình thật lòng trân trọng.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-section" id="ending">
+    <div class="container">
+      <div class="final-box">
+        <h2>Một điều đặc biệt ở cuối trang</h2>
+        <p>
+          Khi nhấn nút bên dưới, một khung nền sẽ hiện ra với thông điệp yêu thương dành riêng cho người ấy.
+        </p>
+        <button class="btn click-btn" id="openLove">Click me</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Love Blog • Một trang web nhỏ viết về tình yêu</p>
+  </footer>
+
+  <div class="love-modal" id="loveModal" aria-hidden="true">
+    <div class="love-card" role="dialog" aria-modal="true" aria-labelledby="loveTitle">
+      <button class="close-btn" id="closeLove" aria-label="Đóng">✕</button>
+      <div class="love-message">
+        <small>For my love</small>
+        <h3 id="loveTitle">Anh iu em nh</h3>
+        <p>
+          Cảm ơn em đã xuất hiện và làm cho những ngày bình thường của anh trở nên thật đặc biệt.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const openLove = document.getElementById('openLove');
+    const closeLove = document.getElementById('closeLove');
+    const loveModal = document.getElementById('loveModal');
+
+    function showModal() {
+      loveModal.classList.add('show');
+      loveModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function hideModal() {
+      loveModal.classList.remove('show');
+      loveModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    openLove.addEventListener('click', showModal);
+    closeLove.addEventListener('click', hideModal);
+
+    loveModal.addEventListener('click', (e) => {
+      if (e.target === loveModal) {
+        hideModal();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        hideModal();
+      }
+    });
+  </script>
+</body>
+</html>
